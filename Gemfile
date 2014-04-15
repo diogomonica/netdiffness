@@ -13,9 +13,17 @@ gem 'spring',        group: :development
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'thin'
+gem 'sidekiq'
+gem 'ruby-nmap', :git => 'git@github.com:sophsec/ruby-nmap.git'
+gem 'uuidtools'
 group :development do
+  gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :mri_21, :rbx]
   gem 'quiet_assets'
   gem 'rails_layout'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0.beta'
 end
