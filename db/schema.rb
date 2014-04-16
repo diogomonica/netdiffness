@@ -11,19 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415015559) do
+ActiveRecord::Schema.define(version: 20140416024101) do
 
-  create_table "scans", force: true do |t|
-    t.integer  "user_id",    null: false
-    t.string   "targets",    null: false
-    t.string   "uuid"
+  create_table "scan_results", force: true do |t|
+    t.integer  "scan_id",    null: false
     t.text     "raw_result"
+    t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "scans", ["targets"], name: "index_scans_on_targets", unique: true
-  add_index "scans", ["uuid"], name: "index_scans_on_uuid", unique: true
+  add_index "scan_results", ["uuid"], name: "index_scan_results_on_uuid", unique: true
+
+  create_table "scans", force: true do |t|
+    t.integer  "user_id",                   null: false
+    t.string   "targets",                   null: false
+    t.integer  "frequency",  default: 1440, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scans", ["targets"], name: "index_scans_on_targets"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

@@ -1,0 +1,34 @@
+<h3>Scan</h3>
+<p>Targets: <%= @scan.targets if @scan.targets %></p>
+<p>Results:</p>
+
+<style>
+table,th,td
+{
+  padding:10px;
+  border:1px solid black;
+  border-collapse:collapse
+}
+</style>
+<% if @last_scan && @last_scan.raw_result %>
+  <table>
+    <tr>
+      <th>IP Address</th>
+      <th>Open Ports</th>
+    </tr>
+    <% @results.each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value.join(', ') %></td>
+    <tr>
+    <% end %>
+  </table>
+<% elsif @last_scan %>
+  <p>Scan in progress... Time elapsed: <b><%= ((Time.now - @last_scan.created_at)/60).round %> minutes</b></p>
+<% else %>
+  <p>Oops, something went wrong with this scan. Please try again.</p>
+<% end %>
+
+<%= form_tag(contoller: "scans", action: "rescan", method: "post") do %>
+  <%= submit_tag("Rescan") %>
+<% end %>

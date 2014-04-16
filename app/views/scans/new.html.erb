@@ -1,0 +1,10 @@
+<h3>New Scan</h3>
+<%= form_for @scan do |f| %>
+  Target Network:
+  <%= f.text_field :targets, :required => true, :autofocus => true %><br />
+
+  Frequency of Check (minutes):
+  <%= f.text_field :frequency, :required => true %><br />
+
+  <%= f.submit %>
+<% end %>

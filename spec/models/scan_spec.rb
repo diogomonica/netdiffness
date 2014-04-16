@@ -5,7 +5,7 @@ VALID_SCAN_RESULT = ["74.207.244.221", ["20/tcp", "21/tcp", "22/tcp", "23/tcp", 
 describe Scan do
   subject {Scan.new}
   it "parses the xml correctly" do
-    expect(subject.parse_xml_scan("random_name")).not_to be_nil
-    expect(subject.parse_xml_scan("random_name")).to contain_exactly(VALID_SCAN_RESULT)
+    expect(subject.get_last_scan_result("random_name")).not_to be_nil
+    expect(subject.get_last_scan_result("random_name")).to contain_exactly(VALID_SCAN_RESULT)
   end
 end

@@ -1,0 +1,9 @@
+<h3>Scans</h3>
+<%= link_to 'New Scan', new_scan_path %>
+<ul class="scans">
+  <% @scans.each do |scan| %>
+    <li>
+      <%= link_to scan.targets, scan %> started at <%= scan.created_at %>
+    </li>
+  <% end %>
+</ul>
