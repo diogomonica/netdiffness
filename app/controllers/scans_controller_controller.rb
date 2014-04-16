@@ -1,2 +1,0 @@
-class ScansControllerController < ApplicationController
-end
