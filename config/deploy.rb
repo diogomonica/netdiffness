@@ -32,7 +32,7 @@ set :deploy_to, '/var/www/netdiffness.com'
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :rails_env, "production"
 
-set :linked_files, %w{config/database.yml config/initializers/devise.rb}
+set :linked_files, %w{config/database.yml config/secrets.yml config/initializers/devise.rb}
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
