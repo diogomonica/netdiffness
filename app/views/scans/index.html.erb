@@ -1,9 +1,27 @@
-<h3>Scans</h3>
-<%= link_to 'New Scan', new_scan_path %>
-<ul class="scans">
-  <% @scans.each do |scan| %>
-    <li>
-      <%= link_to scan.targets, scan %> started at <%= scan.created_at %>
-    </li>
-  <% end %>
-</ul>
+<div class="col-md-9" role="main">
+  <h3>Scan Listing</h3>
+    <div class="bs-example">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>CIDR Range</th>
+          <th>Last Scanned</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @scans.each do |scan| %>
+        <tr>
+          <td><%= scan.name %></td>
+          <td><code><%= link_to scan.targets, scan %></code></td>
+          <td><%= scan.last_scan %></td>
+          <td><%= scan.active %></td>
+        <tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+    <%= link_to 'New Scan', new_scan_path, :type => 'button', :class => 'btn btn-primary btn-lg' %>
+  </div>
+</div>

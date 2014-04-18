@@ -1,46 +1,55 @@
-<h3>Scan Results</h3>
-<p>Targets: <%= @scan.targets if @scan.targets %></p>
-<div class="scantable">
 
-  <% if @last_scan && @last_scan.raw_result %>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>IP Address</th>
-          <th>Open Ports</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @results.each do |key, value| %>
-        <tr>
-          <td><%= key %></td>
-          <td><%= value.join(', ') %></td>
-        <tr>
+<div class="col-md-9" role="main">
+  <h3>Scan Results for <%= @scan.targets if @scan.targets %></h3>
+  <div class="bs-example">
+    <% if @last_scan && @last_scan.finished %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>IP Address</th>
+            <th>Open Ports</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @last_scan_with_raw.each do |key, value| %>
+          <tr>
+            <td><code><%= key %></code></td>
+            <td><%= value.join(', ') %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+  </div>
+  <div class="highlight">
+    Scanned with:
+      <code><kbd>nmap -sV -oX output.xml -p 20,21,22,23,25,80,110,443,512,522,8080,1080 <%= @scan.targets %></kbd></code>
+  </div>
+
+
+      <h3>Compare with Previous Scans:</h3>
+      <% if @results %>
+        <% @results[0..-2].each do |r| %>
+          <%= link_to r.created_at, controller: "scan_results", action: "compare", id: @last_scan_with_raw.id, cid: r.id %><br />
         <% end %>
-      </tbody>
-    </table>
-  <% elsif @last_scan %>
-    <p>Scan in progress... Time elapsed: <b><%= ((Time.now - @last_scan.created_at)/60).round %> minutes</b></p>
-  <% else %>
-    <p>Oops, something went wrong with this scan. Please try again.</p>
-  <% end %>
-<%= form_for @scan, url: {action: "update"} do |f| %>
-  <% if @scan.active %>
-    <%= f.submit "Disable", :class => 'btn btn-primary' %>
-  <% else %>
-    <%= f.submit "Enable", :class => 'btn btn-primary' %>
-  <% end %>
-<% end %>
+      <% end %>
 
-<%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
-  <%= submit_tag("Rescan", :class => 'btn btn-primary') %>
-<% end %>
+    <% elsif @last_scan %>
+      <p>Scan in progress... Time elapsed: <b><%= ((Time.now - @last_scan.created_at)/60).round %> minutes</b></p>
+    <% else %>
+      <p>Oops, this range was never scaned. Please rescan it.</p>
+    <% end %>
 
+  <%= form_for @scan, url: {action: "update"} do |f| %>
+    <% if @scan.active %>
+      <%= f.submit "Disable", :class => 'btn btn-primary btn-lg' %>
+    <% else %>
+      <%= f.submit "Enable", :class => 'btn btn-primary btn-lg' %>
+    <% end %>
+  <% end %>
+
+  <br/>
+
+  <%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
+    <%= submit_tag("Rescan", :class => 'btn btn-primary btn-lg') %>
+  <% end %>
 </div>
-
-<p>Compare with Previous Scans:</p>
-<% if @scan_results %>
-  <% @scan_results.each do |r| %>
-    <%= link_to r.created_at, controller: "scan_results", action: "compare", id: @last_scan.id, cid: r.id %><br />
-  <% end %>
-<% end %>

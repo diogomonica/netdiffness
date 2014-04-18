@@ -1,10 +1,16 @@
-<h3>New Scan</h3>
-<%= form_for @scan do |f| %>
-  Target Network (CIDR range):
-  <%= f.text_field :targets, :required => true, :autofocus => true %><br />
-
-  Frequency of Check (minutes):
-  <%= f.text_field :frequency, :required => true, :disabled => true %><br />
-
-  <%= f.submit %>
-<% end %>
+<h3>Create a new Scan</h3>
+<div class="authform">
+  <%= form_for @scan do |f| %>
+  <div class="form-group">
+    <fieldset>
+      <p><b>Scan Name:</b></p>
+      <%= f.text_field :name, :required => true, :autofocus => true, class: 'form-control' %><br />
+    <p><b>Target Network (CIDR range):</b></p>
+    <%= f.text_field :targets, :required => true, class: 'form-control' %><br />
+    <p><b>Frequency (minutes):</b></p>
+    <%= f.text_field :frequency, :required => true, :disabled => true, class: 'form-control' %>
+  </div>
+  </fieldset>
+    <%= f.submit "Create Scan", :class => 'btn btn-primary btn-lg' %>
+  <% end %>
+</div>

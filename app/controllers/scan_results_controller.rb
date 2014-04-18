@@ -16,6 +16,6 @@ class ScanResultsController < ApplicationController
     # Make sure these ScanResults belong to the same Scan
     head :unauthorized unless @result_a.scan == @result_b.scan
 
-    @results = HashDiff.diff(@result_b.result, @result_a.result, :delimiter => ';')
+    @results = @result_a.compare(@result_b)
   end
 end

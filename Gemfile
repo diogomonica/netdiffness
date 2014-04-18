@@ -27,6 +27,7 @@ group :development do
   gem 'rails_layout'
   gem 'capistrano'
   gem 'capistrano-rails'
+  gem 'capistrano-sidekiq'
 end
 
 group :development, :test do

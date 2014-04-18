@@ -14,9 +14,10 @@
 ActiveRecord::Schema.define(version: 20140416024101) do
 
   create_table "scan_results", force: true do |t|
-    t.integer  "scan_id",    null: false
-    t.text     "raw_result"
+    t.integer  "scan_id",                                       null: false
+    t.text     "raw_result", limit: 2147483647
     t.string   "uuid"
+    t.boolean  "finished",                      default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define(version: 20140416024101) do
     t.integer  "frequency",  default: 1440, null: false
     t.boolean  "active",     default: true, null: false
     t.datetime "last_scan"
+    t.string   "name",                      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

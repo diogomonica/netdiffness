@@ -18,6 +18,10 @@ class ScanResult < ActiveRecord::Base
     result_hash
   end
 
+  def compare(scan_result)
+    HashDiff.diff(self.result, scan_result.result, :delimiter => ';')
+  end
+
   private
   def generate_random_uuid
     self.uuid = SecureRandom.uuid()

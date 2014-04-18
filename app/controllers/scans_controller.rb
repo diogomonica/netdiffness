@@ -3,14 +3,13 @@ class ScansController< ApplicationController
   before_filter :ensure_ownership, :only => [:show, :update, :rescan]
 
   def index
-    @scans = current_user.scans
+    @scans = current_user.scans.order(last_scan: :desc).limit(100)
   end
 
   def show
-    # Remove the last scan result because it wi
-    @scan_results = @scan.scan_results[0..-2]
-    @last_scan = @scan.get_last_scan_result
-    @results = @last_scan ? @last_scan.result : {}
+    @last_scan = @scan.scan_results.last
+    @results = ScanResult.where("scan_id = ? AND raw_result IS NOT NULL", @scan.id).limit(100)
+    @last_scan_with_raw = @results.last.result unless @results.empty?
   end
 
   def new
@@ -34,7 +33,7 @@ class ScansController< ApplicationController
       @scan.update_attributes({active: false})
     else
       @scan.update_attributes({active: true})
-    end  
+    end
     redirect_to @scan
   end
 
@@ -53,7 +52,7 @@ class ScansController< ApplicationController
   end
 
   def scan_params
-    params.require(:scan).permit(:targets, :frequency)
+    params.require(:scan).permit(:targets, :frequency, :name)
   end
 
   def update_params

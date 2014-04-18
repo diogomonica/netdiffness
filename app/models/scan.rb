@@ -13,9 +13,7 @@ class Scan < ActiveRecord::Base
     self.save
   end
 
-  def get_last_scan_result
-    results = self.scan_results
-    return results.last unless results.empty?
-    nil
+  def get_last_diff_scan_result
+    ScanResult.where("scan_id = ? AND raw_result is NOT NULL", self.id).last
   end
 end

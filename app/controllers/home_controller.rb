@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @scans = Scan.where(user_id: current_user.id, active: true) if current_user
+    redirect_to controller: "scans", action: "index"
   end
 end
