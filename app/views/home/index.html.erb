@@ -1,4 +1,7 @@
-<h3>Home</h3>
-<% @users.each do |user| %>
-  <p>User: <%=link_to user.email, user %></p>
+<h3>Welcome to NetDiffness</h3>
+
+<% unless @scans %>
+  <p> Please <%=link_to "Login", new_user_session_path %> to start using NetDiffness</p>
+<% else %>
+  <p> You have <%=link_to @scans.count, scans_path %> <%=  %> scans currently active </p>
 <% end %>

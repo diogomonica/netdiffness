@@ -1,0 +1,29 @@
+<h3>Scan Comparison</h3>
+<p>Summary of what changed in the last: <%= ((@result_a.created_at - @result_b.created_at)/3600).round %> hours</p>
+
+<style>
+table,th,td
+{
+  padding:10px;
+  border:1px solid black;
+  border-collapse:collapse
+}
+</style>
+<% if @results %>
+  <table>
+    <tr>
+      <th>Addition/Removal</th>
+      <th>IP Address</th>
+      <th>Ports</th>
+    </tr>
+    <% @results.each do |change| %>
+    <tr>
+      <td><%= change[0] %></td>
+      <td><%= change[1][0..-4] %></td>
+      <td><%= change[2] %></td>
+    <tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>Oops, something went wrong with this comparison. Please try again.</p>
+<% end %>

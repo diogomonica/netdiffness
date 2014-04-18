@@ -9,6 +9,8 @@ class Scan < ActiveRecord::Base
   def start_scan
     scan_result = ScanResult.create(scan_id: self.id)
     SimpleScanWorker.perform_async(scan_result.uuid, self.targets)
+    self.last_scan = Time.now
+    self.save
   end
 
   def get_last_scan_result

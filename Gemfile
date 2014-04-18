@@ -16,12 +16,17 @@ gem 'thin'
 gem 'sidekiq'
 gem 'ruby-nmap', :git => 'git@github.com:sophsec/ruby-nmap.git'
 gem 'uuidtools'
+gem 'hashdiff'
+gem 'sidetiq', :git => 'git@github.com:tobiassvn/sidetiq.git'
+gem 'mysql2'
 group :development do
   gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :mri_21, :rbx]
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'capistrano'
+  gem 'capistrano-rails'
 end
 
 group :development, :test do

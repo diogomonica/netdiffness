@@ -4,6 +4,8 @@ class CreateScans < ActiveRecord::Migration
       t.belongs_to :user, null: false
       t.string :targets, null: false
       t.integer :frequency, null: false, default: 1440
+      t.boolean :active, null:false, default: true
+      t.datetime :last_scan, null: true
       t.timestamps
     end
 

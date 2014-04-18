@@ -1,34 +1,46 @@
-<h3>Scan</h3>
+<h3>Scan Results</h3>
 <p>Targets: <%= @scan.targets if @scan.targets %></p>
-<p>Results:</p>
+<div class="scantable">
 
-<style>
-table,th,td
-{
-  padding:10px;
-  border:1px solid black;
-  border-collapse:collapse
-}
-</style>
-<% if @last_scan && @last_scan.raw_result %>
-  <table>
-    <tr>
-      <th>IP Address</th>
-      <th>Open Ports</th>
-    </tr>
-    <% @results.each do |key, value| %>
-    <tr>
-      <td><%= key %></td>
-      <td><%= value.join(', ') %></td>
-    <tr>
-    <% end %>
-  </table>
-<% elsif @last_scan %>
-  <p>Scan in progress... Time elapsed: <b><%= ((Time.now - @last_scan.created_at)/60).round %> minutes</b></p>
-<% else %>
-  <p>Oops, something went wrong with this scan. Please try again.</p>
+  <% if @last_scan && @last_scan.raw_result %>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>Open Ports</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @results.each do |key, value| %>
+        <tr>
+          <td><%= key %></td>
+          <td><%= value.join(', ') %></td>
+        <tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% elsif @last_scan %>
+    <p>Scan in progress... Time elapsed: <b><%= ((Time.now - @last_scan.created_at)/60).round %> minutes</b></p>
+  <% else %>
+    <p>Oops, something went wrong with this scan. Please try again.</p>
+  <% end %>
+<%= form_for @scan, url: {action: "update"} do |f| %>
+  <% if @scan.active %>
+    <%= f.submit "Disable", :class => 'btn btn-primary' %>
+  <% else %>
+    <%= f.submit "Enable", :class => 'btn btn-primary' %>
+  <% end %>
 <% end %>
 
-<%= form_tag(contoller: "scans", action: "rescan", method: "post") do %>
-  <%= submit_tag("Rescan") %>
+<%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
+  <%= submit_tag("Rescan", :class => 'btn btn-primary') %>
+<% end %>
+
+</div>
+
+<p>Compare with Previous Scans:</p>
+<% if @scan_results %>
+  <% @scan_results.each do |r| %>
+    <%= link_to r.created_at, controller: "scan_results", action: "compare", id: @last_scan.id, cid: r.id %><br />
+  <% end %>
 <% end %>

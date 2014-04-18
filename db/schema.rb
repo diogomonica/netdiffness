@@ -21,17 +21,19 @@ ActiveRecord::Schema.define(version: 20140416024101) do
     t.datetime "updated_at"
   end
 
-  add_index "scan_results", ["uuid"], name: "index_scan_results_on_uuid", unique: true
+  add_index "scan_results", ["uuid"], name: "index_scan_results_on_uuid", unique: true, using: :btree
 
   create_table "scans", force: true do |t|
     t.integer  "user_id",                   null: false
     t.string   "targets",                   null: false
     t.integer  "frequency",  default: 1440, null: false
+    t.boolean  "active",     default: true, null: false
+    t.datetime "last_scan"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "scans", ["targets"], name: "index_scans_on_targets"
+  add_index "scans", ["targets"], name: "index_scans_on_targets", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -49,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140416024101) do
     t.string   "name"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

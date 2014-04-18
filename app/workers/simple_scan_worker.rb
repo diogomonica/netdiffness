@@ -2,6 +2,7 @@ require 'nmap/program'
 
 class SimpleScanWorker
   include Sidekiq::Worker
+
   sidekiq_options :retry => false
 
   def perform(uuid, targets)
