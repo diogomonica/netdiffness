@@ -9,7 +9,21 @@ class ScansController< ApplicationController
   def show
     @last_scan = @scan.scan_results.last
     @results = ScanResult.where("scan_id = ? AND raw_result IS NOT NULL", @scan.id).limit(100)
-    @last_scan_with_raw = @results.last.result unless @results.empty?
+    @last_scan_with_raw = @results.last unless @results.empty?
+
+    # Previous scans stuff
+    # Previous scans stuff
+    previous_six_months = (0..6).map do |month|
+      (6.months.ago + month.months).strftime("%B")
+    end
+
+    @historic_summary = "[#{previous_six_months}, [{\"articles\": #{@scan.get_history_of_scans @last_scan}, \"total\": 5, \"name\": \"Scans with changes\"}]]"
+
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @historic_summary }
+    end
   end
 
   def new

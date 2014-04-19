@@ -16,4 +16,15 @@ class Scan < ActiveRecord::Base
   def get_last_diff_scan_result
     ScanResult.where("scan_id = ? AND raw_result is NOT NULL", self.id).last
   end
+
+  def get_history_of_scans(result_b)
+    # [[0.4, 1], [3, 2], [4, 2], [5, 2], [1, 1]]
+    # Change this to return an intermediate value depending on the day
+    # Change this to calculate the amount of change between dates
+    result = []
+    ScanResult.where("scan_id = ? AND raw_result is NOT NULL", self.id).each do |r|
+      result << [r.created_at.month, r.compare(result_b).count]
+    end
+    result
+  end
 end

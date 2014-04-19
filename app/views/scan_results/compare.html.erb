@@ -1,29 +1,36 @@
-<h3>Scan Comparison</h3>
-<p>Summary of what changed in the last: <%= ((@result_a.created_at - @result_b.created_at)/3600).round %> hours</p>
+<div class="col-md-9" role="main">
+  <h3>Scan Comparison</h3>
 
-<style>
-table,th,td
-{
-  padding:10px;
-  border:1px solid black;
-  border-collapse:collapse
-}
-</style>
-<% if @results %>
-  <table>
-    <tr>
-      <th>Addition/Removal</th>
-      <th>IP Address</th>
-      <th>Ports</th>
-    </tr>
-    <% @results.each do |change| %>
-    <tr>
-      <td><%= change[0] %></td>
-      <td><%= change[1][0..-4] %></td>
-      <td><%= change[2] %></td>
-    <tr>
-    <% end %>
-  </table>
-<% else %>
-  <p>Oops, something went wrong with this comparison. Please try again.</p>
-<% end %>
+  <div class="bs-callout bs-callout-info">
+    <h4>Summary of changes for <%= @result_a.scan.name %> compared with <%= ((@result_a.created_at - @result_b.created_at)/3600).round %> hours ago.</h4>
+    <p>New additions appear in green and removals will show up in red</p>
+  </div>
+  <% if @results %>
+  <div class="bs-example">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>Ports</th>
+        </tr>
+      </thead>
+      </tbody>
+        <% @results.each do |change| %>
+
+      <% if change[0] == "-" %>
+        <tr class="success">
+      <% else %>
+        <tr class="danger">
+      <% end %>
+          <td><%= change[1].include?("[") ? change[1][0..-4] : change[1] %></td>
+          <td><%= change[2].kind_of?(Array) ? change[2].join(',') : change[2] %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+  <% else %>
+    <p>Oops, something went wrong with this comparison. Please try again.</p>
+  <% end %>
+  <%= link_to 'Back to Scan', @result_a.scan, :type => 'button', :class => 'btn btn-primary btn-lg' %>
+</div>

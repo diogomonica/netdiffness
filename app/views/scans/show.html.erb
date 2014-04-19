@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @last_scan_with_raw.each do |key, value| %>
+          <% @last_scan_with_raw.result.each do |key, value| %>
           <tr>
             <td><code><%= key %></code></td>
             <td><%= value.join(', ') %></td>
@@ -27,11 +27,22 @@
 
 
       <h3>Compare with Previous Scans:</h3>
+      <div id="history">
+
+      </div>
+      <script src="/assets/history_diagram2.js" charset="utf-8"></script>
+
+<!--       <%= javascript_include_tag 'history_diagram2.js' %> -->
+
       <% if @results %>
         <% @results[0..-2].each do |r| %>
           <%= link_to r.created_at, controller: "scan_results", action: "compare", id: @last_scan_with_raw.id, cid: r.id %><br />
         <% end %>
       <% end %>
+
+    <%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
+      <%= submit_tag("Rescan", :class => 'btn btn-primary btn-lg') %>
+    <% end %>
 
     <% elsif @last_scan %>
       <p>Scan in progress... Time elapsed: <b><%= ((Time.now - @last_scan.created_at)/60).round %> minutes</b></p>
@@ -46,10 +57,5 @@
       <%= f.submit "Enable", :class => 'btn btn-primary btn-lg' %>
     <% end %>
   <% end %>
-
   <br/>
-
-  <%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
-    <%= submit_tag("Rescan", :class => 'btn btn-primary btn-lg') %>
-  <% end %>
 </div>
