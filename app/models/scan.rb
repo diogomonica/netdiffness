@@ -23,7 +23,7 @@ class Scan < ActiveRecord::Base
     # Change this to calculate the amount of change between dates
     result = []
     ScanResult.where("scan_id = ? AND raw_result is NOT NULL", self.id).each do |r|
-      result << [r.created_at.month, r.compare(result_b).count]
+      result << [r.created_at.month, r.compare(result_b).count, r.id]
     end
     result
   end

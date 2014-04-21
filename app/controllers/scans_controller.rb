@@ -12,13 +12,11 @@ class ScansController< ApplicationController
     @last_scan_with_raw = @results.last unless @results.empty?
 
     # Previous scans stuff
-    # Previous scans stuff
     previous_six_months = (0..6).map do |month|
       (6.months.ago + month.months).strftime("%B")
     end
 
-    @historic_summary = "[#{previous_six_months}, [{\"articles\": #{@scan.get_history_of_scans @last_scan}, \"total\": 5, \"name\": \"Scans with changes\"}]]"
-
+    @historic_summary = { current_result: @last_scan_with_raw.id, timeline: previous_six_months, articles: @scan.get_history_of_scans(@last_scan) }
 
     respond_to do |format|
       format.html
