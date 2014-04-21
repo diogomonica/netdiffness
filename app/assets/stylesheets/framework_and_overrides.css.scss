@@ -31,6 +31,9 @@ img {
   @extend .col-md-6;
   @extend .text-center;
   }
+.form-inline {
+  display: inline;
+}
 .submit {
   @extend .btn;
   @extend .btn-primary;
@@ -84,4 +87,10 @@ section {
   @extend .btn;
   @extend .btn-primary;
   @extend .btn-xs;
+}
+.button-inline {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+  display: inline;
 }

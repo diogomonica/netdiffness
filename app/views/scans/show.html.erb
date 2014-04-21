@@ -38,7 +38,7 @@
       <% end %> -->
 
     <%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
-      <%= submit_tag("Rescan", :class => 'btn btn-primary btn-lg') %>
+      <%= submit_tag("Rescan", :class => 'button-inline') %>
     <% end %>
 
     <% elsif @last_scan %>
@@ -49,9 +49,9 @@
 
   <%= form_for @scan, url: {action: "update"} do |f| %>
     <% if @scan.active %>
-      <%= f.submit "Disable", :class => 'btn btn-primary btn-lg' %>
+      <%= f.submit "Disable", :class => 'button-inline' %>
     <% else %>
-      <%= f.submit "Enable", :class => 'btn btn-primary btn-lg' %>
+      <%= f.submit "Enable", :class => 'button-inline' %>
     <% end %>
   <% end %>
   <br/>
