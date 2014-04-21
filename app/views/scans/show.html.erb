@@ -31,11 +31,11 @@
 
       </div>
 
-      <% if @results %>
+<!--       <% if @results %>
         <% @results[0..-2].each do |r| %>
           <%= link_to r.created_at, controller: "scan_results", action: "compare", id: @last_scan_with_raw.id, cid: r.id %><br />
         <% end %>
-      <% end %>
+      <% end %> -->
 
     <%= form_tag(controller: "scans", action: "rescan", method: "post") do %>
       <%= submit_tag("Rescan", :class => 'btn btn-primary btn-lg') %>
